@@ -54,6 +54,9 @@
           pkgs.jre
           self.packages.${system}.${name}
         ];
+        shellHook = ''
+          . ./packages/${name}/utils.sh
+        '';
       };
     }) [
       "lejos-nxj"

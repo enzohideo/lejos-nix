@@ -1,0 +1,17 @@
+#!/usr/bin/env sh
+
+# Compile, link, upload and run a NXT program
+up() {
+  filename="$1"
+  basename="${filename%.*}"
+  nxjc "$filename"
+  nxj -r "$basename"
+}
+
+# Compile and run a PC API program
+pc() {
+  filename="$1"
+  basename="${filename%.*}"
+  nxjpc "$filename"
+  nxjp "$basename"
+}
