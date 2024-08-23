@@ -34,7 +34,7 @@ stdenv.mkDerivation rec {
     runHook preInstall
 
     mkdir -p $out
-    cp -pr --reflink=auto ./* $out
+    cp -pr --reflink=auto ./{bin,lib} $out
 
     runHook postInstall
   '';
