@@ -47,15 +47,16 @@
 
     devShells = eachSystem (system: let
       pkgs = pkgsFor.${system};
-    in {
-      default = self.devShells.${system}.lejos-nxj;
-      lejos-nxj = pkgs.mkShell {
-        name = "lejos-nxj-shell";
+    in (lib.attrsets.mergeAttrsList (builtins.map (name: {
+      ${name} = pkgs.mkShell {
+        name = "${name}-shell";
         buildInputs = [
           pkgs.jre
-          self.packages.${system}.lejos-nxj
+          self.packages.${system}.${name}
         ];
       };
-    });
+    }) [
+      "lejos-nxj"
+    ])));
   };
 }
