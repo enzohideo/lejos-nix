@@ -12,6 +12,6 @@ up() {
 pc() {
   filename="$1"
   basename="${filename%.*}"
-  nxjpc "$filename"
-  nxjp "$basename"
+  nxjpcc "$filename"
+  nxjpc "$basename"
 }
