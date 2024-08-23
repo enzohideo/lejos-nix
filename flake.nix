@@ -52,7 +52,7 @@
       lejos-nxj = pkgs.mkShell {
         name = "lejos-nxj-shell";
         buildInputs = [
-          jdkFor.${system}
+          pkgs.jre
           self.packages.${system}.lejos-nxj
         ];
       };
