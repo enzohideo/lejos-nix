@@ -49,6 +49,10 @@
     in {
       ${name} = pkgs.mkShell {
         name = "${name}-shell";
+        buildInputs = [ pkgs.jre lejos ];
+      };
+      "${name}-jdt" = pkgs.mkShell {
+        name = "${name}-jdt-shell";
         buildInputs = with pkgs; [
           jre
           jdt-language-server
