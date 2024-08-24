@@ -1,8 +1,9 @@
-{ stdenv
-, fetchurl
-, ant
-, jdk
-, libusb-compat-0_1
+{
+  stdenv,
+  fetchurl,
+  ant,
+  jdk,
+  libusb-compat-0_1,
 }:
 
 stdenv.mkDerivation rec {
