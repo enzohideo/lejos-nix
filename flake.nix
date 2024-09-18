@@ -78,6 +78,7 @@
                   pkgs.jre
                   lejos
                 ];
+                shellHook = builtins.readFile ./packages/${name}/utils.sh;
               };
               "${name}-jdt" = pkgs.mkShell {
                 name = "${name}-jdt-shell";
@@ -106,7 +107,7 @@
                     </dependencies>
                   </project>
                   EOF
-                  . ./packages/${name}/utils.sh
+                  ${builtins.readFile ./packages/${name}/utils.sh}
                 '';
               };
             }
