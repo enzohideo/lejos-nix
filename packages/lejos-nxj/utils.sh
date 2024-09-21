@@ -15,3 +15,8 @@ pc() {
   nxjpcc "$filename"
   nxjpc "$basename"
 }
+
+# Removes .class files generated during compilation
+clean() {
+  rm -v *.class
+}
