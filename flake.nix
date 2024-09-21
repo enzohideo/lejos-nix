@@ -61,7 +61,7 @@
                   ]
                   ++ [ lejos ];
                 shellHook = ''
-                  cat <<EOF > pom.xml
+                  cat <<EOF > pom.sample.xml
                   <project>
                     <modelVersion>4.0.0</modelVersion>
                     <groupId>${name}-project</groupId>
