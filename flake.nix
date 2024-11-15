@@ -11,7 +11,7 @@
       nixpkgs,
       systems,
       ...
-    }@inputs:
+    }:
     let
       inherit (nixpkgs) lib;
       eachSystem = lib.genAttrs (import systems);
@@ -24,8 +24,8 @@
           pkgs = pkgsFor.${system};
           jdk = pkgs.jdk8;
         in
-        builtins.mapAttrs (name: value: pkgs.callPackage ./packages/${name} value) {
-          lejos-nxj = {
+        {
+          lejos-nxj = pkgs.callPackage ./packages/lejos-nxj {
             inherit jdk;
           };
         }
@@ -36,59 +36,27 @@
         let
           pkgs = pkgsFor.${system};
           jdk = pkgs.jdk8;
-        in
-        (lib.attrsets.mergeAttrsList (
-          builtins.map (
+          mkLejosShell = (
             name:
             let
               lejos = self.packages.${system}.${name};
               utils = builtins.readFile ./packages/${name}/utils.sh;
             in
-            {
-              ${name} = pkgs.mkShell {
-                name = "${name}-shell";
-                buildInputs = [
-                  lejos
-                ];
-                NXJ_HOME = "${lejos}/lib";
-                LEJOS_NXT_JAVA_HOME = "${jdk}/lib/openjdk";
-                shellHook = utils;
-              };
-              "${name}-jdt" =
-                let
-                  pom = ''
-                    <project>
-                      <modelVersion>4.0.0</modelVersion>
-                      <groupId>${name}-project</groupId>
-                      <artifactId>${name}-project</artifactId>
-                      <version>1</version>
-                      <dependencies>
-                        <dependency>
-                         <groupId>${name}</groupId>
-                         <artifactId>${name}</artifactId>
-                         <scope>system</scope>
-                         <version>1</version>
-                         <systemPath>${lejos}/lib/nxt/classes.jar</systemPath>
-                        </dependency>
-                      </dependencies>
-                    </project>'';
-                in
-                pkgs.mkShell {
-                  name = "${name}-jdt-shell";
-                  buildInputs = [
-                    lejos
-                    pkgs.jdt-language-server
-                  ];
-                  shellHook = ''
-                    cat <<EOF > pom.sample.xml
-                    ${pom}
-                    EOF
-                    ${utils}
-                  '';
-                };
+            pkgs.mkShell {
+              name = "${name}-shell";
+              buildInputs = [
+                lejos
+              ];
+              NXJ_HOME = "${lejos}/lib";
+              LEJOS_NXT_JAVA_HOME = "${jdk}/lib/openjdk";
+              shellHook = utils;
             }
-          ) [ "lejos-nxj" ]
-        ))
+          );
+        in
+        {
+          default = self.devShells.${system}.lejos-nxj;
+          lejos-nxj = mkLejosShell "lejos-nxj";
+        }
       );
     };
 }
