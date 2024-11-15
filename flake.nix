@@ -35,6 +35,7 @@
         system:
         let
           pkgs = pkgsFor.${system};
+          jdk = pkgs.jdk8;
         in
         (lib.attrsets.mergeAttrsList (
           builtins.map (
@@ -46,12 +47,11 @@
             {
               ${name} = pkgs.mkShell {
                 name = "${name}-shell";
-                buildInputs =
-                  with pkgs;
-                  [
-                    jre
-                  ]
-                  ++ [ lejos ];
+                buildInputs = [
+                  lejos
+                ];
+                NXJ_HOME = "${lejos}/lib";
+                LEJOS_NXT_JAVA_HOME = "${jdk}/lib/openjdk";
                 shellHook = utils;
               };
               "${name}-jdt" =
@@ -75,13 +75,10 @@
                 in
                 pkgs.mkShell {
                   name = "${name}-jdt-shell";
-                  buildInputs =
-                    with pkgs;
-                    [
-                      jre
-                      jdt-language-server
-                    ]
-                    ++ [ lejos ];
+                  buildInputs = [
+                    lejos
+                    pkgs.jdt-language-server
+                  ];
                   shellHook = ''
                     cat <<EOF > pom.sample.xml
                     ${pom}
