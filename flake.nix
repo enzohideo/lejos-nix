@@ -47,7 +47,7 @@
               buildInputs = [
                 lejos
               ];
-              NXJ_HOME = "${lejos}/lib";
+              NXJ_HOME = lejos;
               LEJOS_NXT_JAVA_HOME = "${jdk}/lib/openjdk";
               shellHook = utils;
             }
