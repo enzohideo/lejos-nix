@@ -5,7 +5,7 @@ up() {
   filename="$1"
   basename="${filename%.*}"
   nxjc "$filename" \
-    && nxj "$basename" ${@:2} \
+    && nxj -o "${basename}.nxj" "${basename}" ${@:2} \
     && echo -e '\e[32mSuccess' \
     || echo -e '\e[31mFailed'
 }
@@ -15,7 +15,7 @@ pc() {
   filename="$1"
   basename="${filename%.*}"
   nxjpcc "$filename" \
-    && nxj -o "${basename}.nxj" "${basename}" ${@:2} \
+    && nxjpc "$basename" ${@:2} \
     && echo -e '\e[32mSuccess' \
     || echo -e '\e[31mFailed'
 }
