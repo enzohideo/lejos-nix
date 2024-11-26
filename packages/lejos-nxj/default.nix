@@ -1,51 +1,38 @@
 {
+  lib,
   stdenv,
   fetchurl,
   writeText,
   ant,
   jdk,
   libusb-compat-0_1,
-}:
-let
-  udev-rule = writeText "lejos-nxj-udev-rule" ''
-    SUBSYSTEM=="usb", ATTRS{idVendor}=="0694", ATTRS{idProduct}=="0002", GROUP="lego", MODE="0664"
-    SUBSYSTEM=="usb", ATTRS{idVendor}=="03eb", ATTRS{idProduct}=="6124", GROUP="lego", MODE="0664"
-  '';
-in
-stdenv.mkDerivation rec {
-  pname = "lejos-nxj";
-  version = "0.9.1beta-3";
-
-  src = fetchurl {
-    url = "https://master.dl.sourceforge.net/project/nxt.lejos.p/${version}/leJOS_NXJ_${version}.tar.gz";
-    hash = "sha256-8QI0tg+Yx0SbbgEC3AagHzqWr0Q1RBa1aiIGuuBNlKI=";
+}: let
+  base = import ../base.nix {
+    inherit stdenv;
+    inherit writeText;
+    inherit ant;
+    inherit jdk;
+    inherit libusb-compat-0_1;
   };
+in
+stdenv.mkDerivation (
+  lib.mergeAttrs base rec {
+    pname = "lejos-nxj";
+    version = "0.9.1beta-3";
 
-  buildInputs = [
-    ant
-    jdk
-    libusb-compat-0_1
-  ];
+    src = fetchurl {
+      url = "https://master.dl.sourceforge.net/project/nxt.lejos.p/${version}/leJOS_NXJ_${version}.tar.gz";
+      hash = "sha256-8QI0tg+Yx0SbbgEC3AagHzqWr0Q1RBa1aiIGuuBNlKI=";
+    };
 
-  buildPhase = ''
-    runHook preBuild
+    buildPhase = ''
+      runHook preBuild
 
-    cd build
-    ant
-    cd -
+      cd build
+      ant
+      cd -
 
-    runHook postBuild
-  '';
-
-  installPhase = ''
-    runHook preInstall
-
-    mkdir -p $out
-    cp -pr --reflink=auto ./{bin,lib} $out
-
-    mkdir -p $out/lib/udev/rules.d
-    cp -p --reflink=auto ${udev-rule} $out/lib/udev/rules.d/70-lego-nxj.rules
-
-    runHook postInstall
-  '';
-}
+      runHook postBuild
+    '';
+  }
+)
