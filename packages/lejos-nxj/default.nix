@@ -11,9 +11,6 @@ let
   base = import ../base.nix {
     inherit stdenv;
     inherit writeText;
-    inherit ant;
-    inherit jdk;
-    inherit libusb-compat-0_1;
   };
 in
 stdenv.mkDerivation (
@@ -35,5 +32,11 @@ stdenv.mkDerivation (
 
       runHook postBuild
     '';
+
+    buildInputs = [
+      ant
+      jdk
+      libusb-compat-0_1
+    ];
   }
 )

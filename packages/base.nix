@@ -1,9 +1,6 @@
 {
   stdenv,
   writeText,
-  ant,
-  jdk,
-  libusb-compat-0_1,
 }:
 let
   udev-rule = writeText "lejos-nxj-udev-rule" ''
@@ -12,12 +9,6 @@ let
   '';
 in
 {
-  buildInputs = [
-    ant
-    jdk
-    libusb-compat-0_1
-  ];
-
   installPhase = ''
     runHook preInstall
 
