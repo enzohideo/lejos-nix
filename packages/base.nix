@@ -27,6 +27,14 @@ in
     mkdir -p $out/lib/udev/rules.d
     cp -p --reflink=auto ${udev-rule} $out/lib/udev/rules.d/70-lego-nxj.rules
 
+    mkdir -p $doc
+    cp -pr --reflink=auto ./docs/* $doc
+
     runHook postInstall
   '';
+
+  outputs = [
+    "out"
+    "doc"
+  ];
 }

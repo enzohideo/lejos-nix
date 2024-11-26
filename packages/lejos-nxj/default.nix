@@ -6,7 +6,8 @@
   ant,
   jdk,
   libusb-compat-0_1,
-}: let
+}:
+let
   base = import ../base.nix {
     inherit stdenv;
     inherit writeText;
