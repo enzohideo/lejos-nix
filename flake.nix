@@ -28,6 +28,9 @@
           lejos-nxj = pkgs.callPackage ./packages/lejos-nxj {
             inherit jdk;
           };
+          lejos-nxj-src = pkgs.callPackage ./packages/lejos-nxj-src {
+            inherit jdk;
+          };
         }
       );
 

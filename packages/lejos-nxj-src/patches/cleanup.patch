@@ -1,0 +1,129 @@
+diff --git a/release/build.xml b/release/build.xml
+index 1e50fb7..75f4fc9 100644
+--- a/release/build.xml
++++ b/release/build.xml
+@@ -52,11 +52,11 @@
+ 			<copy todir="@{todir}">
+ 				<fileset file="${project.@{project}}/${vars.@{project}.classes.jar}" />
+ 			</copy>
+-			<basename file="${project.@{project}}/${vars.@{project}.classes.src.zip}" property="tmp.copy-project.@{project}" />
+-			<zip destfile="@{todir}/${tmp.copy-project.@{project}}">
+-				<zipfileset src="${project.@{project}}/${vars.@{project}.classes.src.zip}" />
+-				<zipfileset file="README-src.txt" fullpath="README.txt" />
+-			</zip>
++			<!-- <basename file="${project.@{project}}/${vars.@{project}.classes.src.zip}" property="tmp.copy-project.@{project}" /> -->
++			<!-- <zip destfile="@{todir}/${tmp.copy-project.@{project}}"> -->
++			<!-- 	<zipfileset src="${project.@{project}}/${vars.@{project}.classes.src.zip}" /> -->
++			<!-- 	<zipfileset file="README-src.txt" fullpath="README.txt" /> -->
++			<!-- </zip> -->
+ 		</sequential>
+ 	</macrodef>
+ 	<macrodef name="buildcopy-project">
+@@ -67,7 +67,7 @@
+ 			<ant inheritAll="false" dir="${project.@{project}}" antfile="build.xml">
+ 				<target name="clean" />
+ 				<target name="classes.jar" />
+-				<target name="classes.src.zip" />
++				<!-- <target name="classes.src.zip" /> -->
+ 			</ant>
+ 			<echo message="*** copying JARs and sources" />
+ 			<copy-project project="@{project}" todir="${shared.dir}/lib/@{type}" />
+@@ -82,7 +82,7 @@
+ 			<copy todir="${shared.dir}/lib/@{type}/3rdparty">
+ 				<fileset dir="${project.@{project}}/3rdparty/lib">
+ 					<include name="*.jar" />
+-					<include name="*-src.zip" />
++					<!-- <include name="*-src.zip" /> -->
+ 				</fileset>
+ 			</copy>
+ 		</sequential>
+@@ -175,7 +175,7 @@
+ 	</macrodef>
+ 
+ 	<!-- release leJOS NXJ -->
+-	<target name="release" description="releases leJOS NXJ" depends="clean, dist.unix, dist.win, dist.source, dist.samples">
++	<target name="release" description="releases leJOS NXJ" depends="clean, dist.unix">
+ 		<!-- notify -->
+ 		<echo message="The packed distribution can be found in ${dist.dir} now." />
+ 	</target>
+@@ -196,9 +196,9 @@
+ 		<copy todir="${unix.dir}/bin">
+ 			<fileset dir="${project.scripts}/${vars.scripts.linux.dir}" />
+ 		</copy>
+-		<copy todir="${windows.dir}/bin">
+-			<fileset dir="${project.scripts}/${vars.scripts.windows.dir}" />
+-		</copy>
++		<!-- <copy todir="${windows.dir}/bin"> -->
++		<!-- 	<fileset dir="${project.scripts}/${vars.scripts.windows.dir}" /> -->
++		<!-- </copy> -->
+ 		<echo message="*** leaving scripts project" />
+ 	</target>
+ 
+@@ -218,11 +218,11 @@
+ 
+ 	<target name="subproject.pccomms">
+ 		<buildcopy-project2 project="pccomms" type="pc" />
+-		<copy todir="${shared.dir}/lib/pc/native">
+-			<fileset dir="${project.pccomms}/native">
+-				<exclude name="linux/**" />
+-			</fileset>
+-		</copy>
++		<!-- <copy todir="${shared.dir}/lib/pc/native"> -->
++		<!-- 	<fileset dir="${project.pccomms}/native"> -->
++		<!-- 		<exclude name="linux/**" /> -->
++		<!-- 	</fileset> -->
++		<!-- </copy> -->
+ 	</target>
+ 
+ 	<target name="subproject.pctools" depends="subproject.pccomms, subproject.jtools">
+@@ -317,10 +317,10 @@
+ 		</javadoc>
+ 	</target>
+ 
+-	<target name="shared" depends="subproject.classes, subproject.jtools, subproject.pccomms, subproject.pctools, subproject.charting, subproject.startup, subproject.samples, subproject.pcsamples, subproject.example, subproject.pcexample, subproject.nxtvm, pc.doc">
+-		<zip destfile="${shared.dir}/samples.zip">
+-			<fileset dir="${samples.dir}" />
+-		</zip>
++	<target name="shared" depends="subproject.classes, subproject.jtools, subproject.pccomms, subproject.pctools, subproject.charting, subproject.startup, pc.doc">
++		<!-- <zip destfile="${shared.dir}/samples.zip"> -->
++		<!-- 	<fileset dir="${samples.dir}" /> -->
++		<!-- </zip> -->
+ 	</target>
+ 
+ 	<!-- copies the lejos sources -->
+@@ -376,15 +376,15 @@
+ 			<include name="**/*.html" />
+ 		</fixcrlf>
+ 		<!-- tar & gzip leJOS Unix distribution -->
+-		<mkdir dir="${dist.dir}" />
+-		<tar destfile="${dist.dir}/${lejos.unix.version}.tar.gz" compression="gzip" longfile="gnu">
+-			<tarfileset dir="${unix.dir}" prefix="${lejos.unix.version}" filemode="755">
+-				<include name="bin/nxj*" />
+-			</tarfileset>
+-			<tarfileset dir="${unix.dir}" prefix="${lejos.unix.version}">
+-				<exclude name="bin/nxj*" />
+-			</tarfileset>
+-		</tar>
++		<!-- <mkdir dir="${dist.dir}" /> -->
++		<!-- <tar destfile="${dist.dir}/${lejos.unix.version}.tar.gz" compression="gzip" longfile="gnu"> -->
++		<!-- 	<tarfileset dir="${unix.dir}" prefix="${lejos.unix.version}" filemode="755"> -->
++		<!-- 		<include name="bin/nxj*" /> -->
++		<!-- 	</tarfileset> -->
++		<!-- 	<tarfileset dir="${unix.dir}" prefix="${lejos.unix.version}"> -->
++		<!-- 		<exclude name="bin/nxj*" /> -->
++		<!-- 	</tarfileset> -->
++		<!-- </tar> -->
+ 	</target>
+ 
+ 	<!-- packages the windows distribution -->
+diff --git a/scripts/build.xml b/scripts/build.xml
+index d6fdfee..bcd642a 100644
+--- a/scripts/build.xml
++++ b/scripts/build.xml
+@@ -158,5 +158,5 @@ ${template.linux.parser}
+ 		<delete dir="${build.dir}"/>
+ 	</target>
+ 	
+-	<target name="all" depends="linux, windows"/>
++	<target name="all" depends="linux"/>
+ </project>

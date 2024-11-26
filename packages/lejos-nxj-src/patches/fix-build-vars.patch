@@ -1,0 +1,150 @@
+diff --git a/classes/build.properties b/classes/build.properties
+index 2360cf3..27fb24c 100644
+--- a/classes/build.properties
++++ b/classes/build.properties
+@@ -23,15 +23,15 @@ build.dir = build
+ project.name = classes
+ 
+ classes.dir = ${build.dir}/classes
+-classes.jar = ${build.dir}/${project.name}.jar
+-classes.src.zip = ${build.dir}/${project.name}-src.zip
++classes.jar = ${build.dir}/classes.jar
++classes.src.zip = ${build.dir}/classes-src.zip
+ 
+ docs.dir = ${build.dir}/docs
+ docs.include = ${source.include}
+ docs.exclude = ${source.exclude},**/internal/**
+-docs.zip = ${build.dir}/${project.name}-docs.zip
++docs.zip = ${build.dir}/classes-docs.zip
+ 
+ # Which are generated, which are not
+-dist.zip = ${build.dir}/${project.name}-dist.zip
++dist.zip = ${build.dir}/classes-dist.zip
+ dist.include = 
+ dist.exclude = bin/**, target/**, ${build.dir}/**
+diff --git a/jtools/build.properties b/jtools/build.properties
+index 599a998..439c2b2 100644
+--- a/jtools/build.properties
++++ b/jtools/build.properties
+@@ -15,7 +15,7 @@ source.version = 1.5
+ target.version = 1.5
+ 
+ resource.dir = ${source.dir}
+-resource.include = ${source.include}
++resource.include =
+ resource.exclude = ${source.exclude},**/*.java
+ 
+ # Where to put generated stuff
+@@ -23,15 +23,15 @@ build.dir = build
+ project.name = jtools
+ 
+ classes.dir = ${build.dir}/classes
+-classes.jar = ${build.dir}/${project.name}.jar
+-classes.src.zip = ${build.dir}/${project.name}-src.zip
++classes.jar = ${build.dir}/jtools.jar
++classes.src.zip = ${build.dir}/jtools-src.zip
+ 
+ docs.dir = ${build.dir}/docs
+-docs.include = ${source.include}
+-docs.exclude = ${source.exclude},**/internal/**
+-docs.zip = ${build.dir}/${project.name}-docs.zip
++docs.include =
++docs.exclude = **/internal/**
++docs.zip = ${build.dir}/jtools-docs.zip
+ 
+ # Which are generated, which are not
+-dist.zip = ${build.dir}/${project.name}-dist.zip
++dist.zip = ${build.dir}/jtools-dist.zip
+ dist.include = 
+ dist.exclude = bin/**, target/**, ${build.dir}/**
+diff --git a/org.lejos.charting/build.properties b/org.lejos.charting/build.properties
+index b365544..77598bb 100644
+--- a/org.lejos.charting/build.properties
++++ b/org.lejos.charting/build.properties
+@@ -23,15 +23,15 @@ build.dir = build
+ project.name = charting
+ 
+ classes.dir = ${build.dir}/classes
+-classes.jar = ${build.dir}/${project.name}.jar
+-classes.src.zip = ${build.dir}/${project.name}-src.zip
++classes.jar = ${build.dir}/charting.jar
++classes.src.zip = ${build.dir}/charting-src.zip
+ 
+ docs.dir = ${build.dir}/docs
+-docs.include = ${source.include}
+-docs.exclude = ${source.exclude},**/internal/**
+-docs.zip = ${build.dir}/${project.name}-docs.zip
++docs.include = lejos/**
++docs.exclude = **/internal/**
++docs.zip = ${build.dir}/charting-docs.zip
+ 
+ # Which are generated, which are not
+-dist.zip = ${build.dir}/${project.name}-dist.zip
++dist.zip = ${build.dir}/charting-dist.zip
+ dist.include = 
+ dist.exclude = bin/**, target/**, ${build.dir}/**
+diff --git a/pccomms/build.properties b/pccomms/build.properties
+index 5a2fe4c..5a2a205 100644
+--- a/pccomms/build.properties
++++ b/pccomms/build.properties
+@@ -23,15 +23,15 @@ build.dir = build
+ project.name = pccomm
+ 
+ classes.dir = ${build.dir}/classes
+-classes.jar = ${build.dir}/${project.name}.jar
+-classes.src.zip = ${build.dir}/${project.name}-src.zip
++classes.jar = ${build.dir}/pccomm.jar
++classes.src.zip = ${build.dir}/pccomm-src.zip
+ 
+ docs.dir = ${build.dir}/docs
+-docs.include = ${source.include}
+-docs.exclude = ${source.exclude},**/internal/**
+-docs.zip = ${build.dir}/${project.name}-docs.zip
++docs.include =
++docs.exclude = **/internal/**
++docs.zip = ${build.dir}/pccomm-docs.zip
+ 
+ # Which are generated, which are not
+-dist.zip = ${build.dir}/${project.name}-dist.zip
++dist.zip = ${build.dir}/pccomm-dist.zip
+ dist.include = 
+ dist.exclude = bin/**, target/**, ${build.dir}/**
+diff --git a/pctools/build.properties b/pctools/build.properties
+index d7ad69e..31b823d 100644
+--- a/pctools/build.properties
++++ b/pctools/build.properties
+@@ -23,15 +23,15 @@ build.dir = build
+ project.name = pctools
+ 
+ classes.dir = ${build.dir}/classes
+-classes.jar = ${build.dir}/${project.name}.jar
+-classes.src.zip = ${build.dir}/${project.name}-src.zip
++classes.jar = ${build.dir}/pctools.jar
++classes.src.zip = ${build.dir}/pctools-src.zip
+ 
+ docs.dir = ${build.dir}/docs
+-docs.include = ${source.include}
+-docs.exclude = ${source.exclude},**/internal/**
+-docs.zip = ${build.dir}/${project.name}-docs.zip
++docs.include =
++docs.exclude = **/internal/**
++docs.zip = ${build.dir}/pctools-docs.zip
+ 
+ # Which are generated, which are not
+-dist.zip = ${build.dir}/${project.name}-dist.zip
++dist.zip = ${build.dir}/pctools-dist.zip
+ dist.include = 
+ dist.exclude = bin/**, target/**, ${build.dir}/**
+diff --git a/release/build.xml b/release/build.xml
+index 10f9b8f..1e50fb7 100644
+--- a/release/build.xml
++++ b/release/build.xml
+@@ -248,7 +248,7 @@
+ 
+ 	<target name="subproject.nxtvm">
+ 		<!-- TODO move binary image to nxtvm project -->
+-		<copy file="${project.snapshot}/bin/lejos_nxt_rom.bin" todir="${shared.dir}/bin" />
++		<!-- <copy file="${project.nxtvm}/lejos_nxt_rom.bin" todir="${shared.dir}/bin" /> -->
+ 	</target>
+ 	
+ 	<target name="subproject.samples">
