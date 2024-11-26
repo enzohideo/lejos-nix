@@ -40,7 +40,7 @@
             name:
             let
               lejos = self.packages.${system}.${name};
-              utils = builtins.readFile ./packages/${name}/utils.sh;
+              shellHook = builtins.readFile ./packages/${name}/shellHook.sh;
             in
             pkgs.mkShell {
               name = "${name}-shell";
@@ -49,7 +49,7 @@
               ];
               NXJ_HOME = lejos;
               LEJOS_NXT_JAVA_HOME = "${jdk}/lib/openjdk";
-              shellHook = utils;
+              inherit shellHook;
             }
           );
         in
