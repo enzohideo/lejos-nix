@@ -39,26 +39,23 @@
         let
           pkgs = pkgsFor.${system};
           jdk = pkgs.jdk8;
-          mkLejosShell = (
-            name:
+        in
+        {
+          default = self.devShells.${system}.lejos-nxj;
+          lejos-nxj =
             let
-              lejos = self.packages.${system}.${name};
-              shellHook = builtins.readFile ./packages/${name}/shellHook.sh;
+              name = "lejos-nxj";
+              lejos = self.packages.${system}.lejos-nxj;
             in
             pkgs.mkShell {
-              name = "${name}-shell";
+              inherit name;
               buildInputs = [
                 lejos
               ];
               NXJ_HOME = lejos;
               LEJOS_NXT_JAVA_HOME = "${jdk}/lib/openjdk";
-              inherit shellHook;
-            }
-          );
-        in
-        {
-          default = self.devShells.${system}.lejos-nxj;
-          lejos-nxj = mkLejosShell "lejos-nxj";
+              shellHook = builtins.readFile ./packages/${name}/shellHook.sh;
+            };
         }
       );
     };
