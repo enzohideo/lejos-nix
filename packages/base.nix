@@ -13,6 +13,7 @@ in
     runHook preInstall
 
     mkdir -p $out
+    chmod +x ./bin/*
     cp -pr --reflink=auto ./{bin,lib} $out
 
     mkdir -p $out/lib/udev/rules.d
