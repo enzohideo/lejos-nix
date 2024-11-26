@@ -57,6 +57,19 @@
               LEJOS_NXT_JAVA_HOME = "${jdk}/lib/openjdk";
               shellHook = builtins.readFile ./packages/${name}/shellHook.sh;
             };
+          lejos-ev3 =
+            let
+              name = "lejos-ev3";
+              lejos = self.packages.${system}.lejos-ev3;
+            in
+            pkgs.mkShell {
+              inherit name;
+              buildInputs = [
+                lejos
+              ];
+              EV3_HOME = lejos;
+              LEJOS_EV3_JAVA_HOME = "${jdk}/lib/openjdk";
+            };
         }
       );
     };
