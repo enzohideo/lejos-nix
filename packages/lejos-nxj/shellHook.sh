@@ -20,7 +20,7 @@ pc() {
     || echo -e '\e[31mFailed'
 }
 
-# Removes .class files generated during compilation
+# Removes .class and .nxj files generated during compilation
 clean() {
-  rm -v *.class
+  rm -v *.class *.nxj
 }
