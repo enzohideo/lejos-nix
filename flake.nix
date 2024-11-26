@@ -31,6 +31,7 @@
           lejos-nxj-src = pkgs.callPackage ./packages/lejos-nxj-src {
             inherit jdk;
           };
+          lejos-ev3 = pkgs.callPackage ./packages/lejos-ev3 {};
         }
       );
 
