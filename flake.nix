@@ -38,29 +38,21 @@
         system:
         let
           pkgs = pkgsFor.${system};
-        in
-        rec {
-          default = self.devShells.${system}.lejos-nxj;
-          lejos-nxj =
+          mkLejosShell =
+            name:
             let
-              name = "lejos-nxj";
-              lejos = self.packages.${system}.lejos-nxj;
+              lejos = self.packages.${system}.${name};
             in
             pkgs.mkShell {
               inherit name;
-              buildInputs = [
-                lejos
-              ];
+              buildInputs = [ lejos ];
               NXJ_HOME = lejos;
-              # TODO: Remove shellHook
-              shellHook = builtins.readFile ./packages/${name}/shellHook.sh;
             };
-          lejos-nxj-src = lejos-nxj.overrideAttrs { # TODO: Fix NXJ_HOME
-            name = "lejos-nxj-src";
-            buildInputs = [
-              self.packages.${system}.lejos-nxj-src
-            ];
-          };
+        in
+        {
+          default = self.devShells.${system}.lejos-nxj;
+          lejos-nxj = mkLejosShell "lejos-nxj";
+          lejos-nxj-src = mkLejosShell "lejos-nxj-src";
         }
       );
     };
