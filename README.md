@@ -10,3 +10,9 @@ leJOS flakes for Nix and NixOS
 
 - lejos-nxj: binaries + native pc lib compilation
 - lejos-nxj-src: compilation from source
+
+# Basic usage
+
+```sh
+nix shell github:enzohideo/lejos-nix#lejos-nxj
+```
