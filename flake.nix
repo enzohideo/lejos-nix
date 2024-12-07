@@ -2,7 +2,7 @@
   description = "leJOS, Java for LEGO Mindstorms";
 
   inputs = {
-    nixpkgs.url = "nixpkgs/nixos-24.05";
+    nixpkgs.url = "nixpkgs/nixos-24.11";
   };
 
   outputs =
