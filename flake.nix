@@ -38,9 +38,8 @@
         system:
         let
           pkgs = pkgsFor.${system};
-          jdk = pkgs.jdk8;
         in
-        {
+        rec {
           default = self.devShells.${system}.lejos-nxj;
           lejos-nxj =
             let
@@ -53,9 +52,15 @@
                 lejos
               ];
               NXJ_HOME = lejos;
-              LEJOS_NXT_JAVA_HOME = "${jdk}/lib/openjdk";
+              # TODO: Remove shellHook
               shellHook = builtins.readFile ./packages/${name}/shellHook.sh;
             };
+          lejos-nxj-src = lejos-nxj.overrideAttrs { # TODO: Fix NXJ_HOME
+            name = "lejos-nxj-src";
+            buildInputs = [
+              self.packages.${system}.lejos-nxj-src
+            ];
+          };
         }
       );
     };

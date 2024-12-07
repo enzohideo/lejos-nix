@@ -3,6 +3,7 @@
   stdenv,
   fetchurl,
   writeText,
+  makeWrapper,
   ant,
   jdk,
   libusb-compat-0_1,
@@ -33,9 +34,20 @@ stdenv.mkDerivation (
       runHook postBuild
     '';
 
-    buildInputs = [
-      ant
+    postFixup = ''
+      for file in $out/bin/* ; do
+        wrapProgram $file \
+          --set LEJOS_NXT_JAVA_HOME ${jdk}/lib/openjdk
+      done
+    '';
+
+    nativeBuildInputs = [
       jdk
+      ant
+      makeWrapper
+    ];
+
+    buildInputs = [
       libusb-compat-0_1
     ];
   }
